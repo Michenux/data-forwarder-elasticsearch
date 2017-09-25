@@ -9,9 +9,9 @@ class Router
     @deviceController = new DeviceController {@meshbluConfig, deviceType, serviceUrl, imageUrl}
 
   route: (app) =>
-    meshbluAuth = MeshbluAuth @meshbluConfig
+    meshbluAuth = new MeshbluAuth @meshbluConfig
     app.get '/schemas/v1/configure.json', @deviceController.getConfigureSchema
-    app.use meshbluAuth
+    app.use meshbluAuth.auth()
 
     app.post   '/messages',       @messageController.message
     app.post   '/devices',        @deviceController.create

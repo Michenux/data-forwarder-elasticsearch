@@ -3,7 +3,7 @@ class Elasticsearch
   onMessage: ({message, forwarderConfig}, callback) =>
     {url, username, password} = forwarderConfig
     options =
-      url: device.url
+      url: url
       json: message
 
     options.auth = {username, password} if username? || password?

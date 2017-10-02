@@ -1,5 +1,5 @@
 request = require 'request'
-logerror = require('debug')('elasticsearch:error');
+debug = require('debug')('data-forwarder:data-forwarder-elasticsearch')
 
 class Elasticsearch
   onMessage: ({message, forwarderConfig}, callback) =>
@@ -12,10 +12,9 @@ class Elasticsearch
     request.post options, (error, response, body) ->
       return callback error if error?
       unless response.statusCode >= 200 && response.statusCode < 399
-        logerror 'Failed to insert data inside ES'
-        logerror 'response.statusCode: ' + response.statusCode
-        logerror 'response.statusMessage: ' + response.statusMessage
-        logerror 'response.body: ' + JSON.stringify(body)
+        debug '''response.statusCode: #{ response.statusCode }
+          response.statusMessage: #{ response.statusMessage }
+          response.body: #{ JSON.stringify(body) } '''
         return callback 'Failed to insert data inside ElasticSearch. Check server logs.'
       callback()
 
